@@ -1,0 +1,17 @@
+﻿@model Alumno
+@using DA2_SistemaEscolar2016.Models
+
+@{
+    ViewBag.Title = "eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>eliminar</h2>
+<p>¿Esta seguro que desea eliminar el siguiente alumno?</p>
+<span>Nombre: </span>@(Model.nombre+" "+Model.apellidoP+" "+Model.apellidoM)<br />
+<span>Grupo: </span>@Model.grupo.nombreGrupo
+
+<form action="confirmarEliminar" method="post">
+    @Html.HiddenFor(cosa=>cosa.noMatricula)
+    <button type="submit">Confirmar</button>
+</form>

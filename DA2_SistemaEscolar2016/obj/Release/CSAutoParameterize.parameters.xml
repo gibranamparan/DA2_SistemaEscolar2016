@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnectionServer-Web.config Connection String" description="DefaultConnectionServer Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5026.SmarterASP.NET;&#xD;&#xA;         Initial Catalog=DB_A09568_SistemaEscolar;&#xD;&#xA;         User Id=DB_A09568_SistemaEscolar_admin;&#xD;&#xA;         Password=wii8b3w1lnn36spq;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\RafaelGibran\\Documents\\Visual\ Studio\ 2013\\Projects\\DA2_SistemaEscolar2016\\DA2_SistemaEscolar2016\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnectionServer']/@connectionString" />
+  </parameter>
+</parameters>

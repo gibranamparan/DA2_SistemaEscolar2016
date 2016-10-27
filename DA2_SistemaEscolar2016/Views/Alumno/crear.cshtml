@@ -1,0 +1,48 @@
+﻿@model Alumno
+@using DA2_SistemaEscolar2016.Models
+
+@{
+    ViewBag.Title = "crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>crear</h2>
+<form action="crear" method="post">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            @Html.LabelFor(a => a.nombre)
+            @Html.EditorFor(a => a.nombre,
+        new { htmlAttributes = new { required = "", @class = "form-control", placeholder = "Nombre" } })
+            @Html.ValidationMessageFor(a => a.nombre, "", new { @class = "error" })
+        </div>
+        <div class="form-group col-sm-6">
+            @Html.LabelFor(a => a.apellidoP)
+            @Html.EditorFor(a => a.apellidoP,
+        new { htmlAttributes = new { required = "", @class = "form-control", placeholder = "Apellido Paterno" } })
+            @Html.ValidationMessageFor(a => a.apellidoP, "", new { @class = "error" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            @Html.LabelFor(a => a.apellidoM)
+            @Html.EditorFor(a => a.apellidoM,
+        new { htmlAttributes = new { required = "", @class = "form-control" } })
+            @Html.ValidationMessageFor(a => a.apellidoM, "", new { @class = "error" })
+        </div>
+        <div class="form-group col-sm-6">
+            @Html.LabelFor(a => a.fechaNac)
+            @Html.EditorFor(a => a.fechaNac,
+        new { htmlAttributes = new { required = "", @class = "form-control" } })
+            @Html.ValidationMessageFor(a => a.fechaNac, "", new { @class = "error" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-12">
+            @Html.LabelFor(a => a.grupo.nombreGrupo)
+            @Html.DropDownList("grupoID", null, new { @class = "form-control" })
+        </div>
+    </div>
+        <button class="btn btn-primary" type="submit">Enviar</button>
+        @*<div class="error">@Html.ValidationSummary()</div>*@
+</form>
