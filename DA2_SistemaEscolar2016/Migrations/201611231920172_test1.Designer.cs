@@ -7,13 +7,13 @@ namespace DA2_SistemaEscolar2016.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class camposRequeridosAlumno : IMigrationMetadata
+    public sealed partial class test1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(camposRequeridosAlumno));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(test1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609201540216_camposRequeridosAlumno"; }
+            get { return "201611231920172_test1"; }
         }
         
         string IMigrationMetadata.Source

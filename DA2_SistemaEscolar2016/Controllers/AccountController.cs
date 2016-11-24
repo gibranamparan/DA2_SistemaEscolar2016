@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DA2_SistemaEscolar2016.Models;
+using DA2_SistemaEscolar2016.ViewModels;
 
 namespace DA2_SistemaEscolar2016.Controllers
 {
@@ -52,12 +53,25 @@ namespace DA2_SistemaEscolar2016.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Administrador")]
+        public ActionResult index()
+        {
+            //Consultar todos los usuarios existens en el sistema
+            var usuarios = UserManager.Users.ToList();
+            var vmUsuarios = from usr in usuarios
+                             select new VMUserRoleName(usr);
+
+            return View(vmUsuarios);
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
@@ -140,6 +154,8 @@ namespace DA2_SistemaEscolar2016.Controllers
         //[Authorize]
         public ActionResult Register()
         {
+
+
             return View();
         }
 
@@ -152,10 +168,15 @@ namespace DA2_SistemaEscolar2016.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser(model);
                 var result = await UserManager.CreateAsync(user, model.Password);
+                //Si se pudo registrar correctamente
                 if (result.Succeeded)
                 {
+                    //Se le asigna un rol
+                    UserManager.AddToRole(user.Id, model.rol);
+
+                    //Se logea automaticamente al sistema
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -164,6 +185,7 @@ namespace DA2_SistemaEscolar2016.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    //Se le redirecciona al home de nuestro sitio
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

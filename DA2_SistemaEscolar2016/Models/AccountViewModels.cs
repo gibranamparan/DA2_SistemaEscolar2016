@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DA2_SistemaEscolar2016.Models
@@ -79,6 +80,26 @@ namespace DA2_SistemaEscolar2016.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        //Datos de profesor
+        [Display(Name = "Nombre")]
+        public String nombre { get; set; }
+
+        [Display(Name = "Apellido Paterno")]
+        public String apellidoP { get; set; }
+
+        [Display(Name = "Apellido Materno")]
+        public String apellidoM { get; set; }
+
+        [Display(Name = "Especialidad")]
+        public String especialidad { get; set; }
+
+        [Display(Name = "Grado")]
+        public String grado { get; set; }
+
+        //Rol de usuario
+        public String rol { get; set; }
+
     }
 
     public class ResetPasswordViewModel

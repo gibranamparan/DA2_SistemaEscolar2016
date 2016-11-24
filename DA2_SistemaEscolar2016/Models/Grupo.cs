@@ -18,5 +18,8 @@ namespace DA2_SistemaEscolar2016.Models
 
         //Un grupo tiene muchos alumnos
         virtual public ICollection<Alumno> alumnos { get; set; }
+
+        //A un grupo se le imparten muchas clases
+        virtual public ICollection<Clase> clases { get; set; }
     }
 }

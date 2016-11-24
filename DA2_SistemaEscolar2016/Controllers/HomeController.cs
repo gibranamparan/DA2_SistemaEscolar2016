@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DA2_SistemaEscolar2016.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace DA2_SistemaEscolar2016.Controllers
 {
     public class HomeController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
             return View();

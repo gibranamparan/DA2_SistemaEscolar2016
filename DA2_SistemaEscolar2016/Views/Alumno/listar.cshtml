@@ -22,7 +22,7 @@
         <th>Fecha Nacimiento</th>
         <th>Grupo</th>
     </tr>
-    @foreach (var alumno in Model) { 
+    @foreach (var alumno in Model.OrderBy(al=>al.fechaNac)) { 
         <tr>
             <td>@alumno.noMatricula</td>
             <td>@(alumno.nombre + " " + alumno.apellidoP + " " + alumno.apellidoM)</td>

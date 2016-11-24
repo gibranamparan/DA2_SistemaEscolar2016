@@ -28,6 +28,9 @@
                     {
                         <li>@Html.ActionLink("Alumnos", "listar", "alumno")</li>
                         <li>@Html.ActionLink("Grupos", "index", "grupos")</li>
+                        if (User.IsInRole("Administrador")) { 
+                            <li>@Html.ActionLink("Usuarios", "index", "Account")</li>
+                        }
                     }
                     <!--<li><a href="/alumno/listar">Alumnos</a></li>-->
                 </ul>

@@ -166,22 +166,24 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609131426331_InitialCreate.cs" />
-    <Compile Include="Migrations\201609131426331_InitialCreate.Designer.cs">
-      <DependentUpon>201609131426331_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201611230530482_initial.cs" />
+    <Compile Include="Migrations\201611230530482_initial.Designer.cs">
+      <DependentUpon>201611230530482_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609201540216_camposRequeridosAlumno.cs" />
-    <Compile Include="Migrations\201609201540216_camposRequeridosAlumno.Designer.cs">
-      <DependentUpon>201609201540216_camposRequeridosAlumno.cs</DependentUpon>
+    <Compile Include="Migrations\201611231920172_test1.cs" />
+    <Compile Include="Migrations\201611231920172_test1.Designer.cs">
+      <DependentUpon>201611231920172_test1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Alumno.cs" />
+    <Compile Include="Models\Clase.cs" />
     <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\VMUserRoleName.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -214,7 +216,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -253,6 +257,7 @@
     <Content Include="Views\Grupos\Detalles.cshtml" />
     <Content Include="Views\BuscadorFormulario.cshtml" />
     <Content Include="Views\Alumno\Partial_Crear.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -265,11 +270,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609131426331_InitialCreate.resx">
-      <DependentUpon>201609131426331_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611230530482_initial.resx">
+      <DependentUpon>201611230530482_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609201540216_camposRequeridosAlumno.resx">
-      <DependentUpon>201609201540216_camposRequeridosAlumno.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611231920172_test1.resx">
+      <DependentUpon>201611231920172_test1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

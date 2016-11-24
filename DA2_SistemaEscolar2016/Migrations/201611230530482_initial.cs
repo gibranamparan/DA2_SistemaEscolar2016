@@ -3,7 +3,7 @@ namespace DA2_SistemaEscolar2016.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -12,9 +12,9 @@ namespace DA2_SistemaEscolar2016.Migrations
                 c => new
                     {
                         noMatricula = c.Int(nullable: false, identity: true),
-                        nombre = c.String(),
-                        apellidoP = c.String(),
-                        apellidoM = c.String(),
+                        nombre = c.String(nullable: false),
+                        apellidoP = c.String(nullable: false),
+                        apellidoM = c.String(nullable: false),
                         fechaNac = c.DateTime(nullable: false),
                         grupoID = c.Int(nullable: false),
                     })
@@ -31,6 +31,21 @@ namespace DA2_SistemaEscolar2016.Migrations
                         carrera = c.String(),
                     })
                 .PrimaryKey(t => t.grupoID);
+            
+            CreateTable(
+                "dbo.Clases",
+                c => new
+                    {
+                        claseID = c.Int(nullable: false, identity: true),
+                        asignatura = c.String(),
+                        Grupo_grupoID = c.Int(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.claseID)
+                .ForeignKey("dbo.Grupoes", t => t.Grupo_grupoID)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.Grupo_grupoID)
+                .Index(t => t.ApplicationUser_Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -60,6 +75,11 @@ namespace DA2_SistemaEscolar2016.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        nombre = c.String(),
+                        apellidoP = c.String(),
+                        apellidoM = c.String(),
+                        especialidad = c.String(),
+                        grado = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -106,8 +126,10 @@ namespace DA2_SistemaEscolar2016.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Clases", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Clases", "Grupo_grupoID", "dbo.Grupoes");
             DropForeignKey("dbo.Alumnoes", "grupoID", "dbo.Grupoes");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -115,12 +137,15 @@ namespace DA2_SistemaEscolar2016.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Clases", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.Clases", new[] { "Grupo_grupoID" });
             DropIndex("dbo.Alumnoes", new[] { "grupoID" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Clases");
             DropTable("dbo.Grupoes");
             DropTable("dbo.Alumnoes");
         }

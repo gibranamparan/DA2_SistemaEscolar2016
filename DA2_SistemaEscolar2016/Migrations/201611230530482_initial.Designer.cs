@@ -7,13 +7,13 @@ namespace DA2_SistemaEscolar2016.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609131426331_InitialCreate"; }
+            get { return "201611230530482_initial"; }
         }
         
         string IMigrationMetadata.Source
