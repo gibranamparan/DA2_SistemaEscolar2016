@@ -32,6 +32,9 @@ namespace DA2_SistemaEscolar2016.Models
 
         //Un alumno tiene un solo grupo
         public int grupoID { get; set; }
-        virtual public Grupo grupo{ get; set; }
+        public virtual Grupo grupo { get; set; }
+
+        //A un alumno le pertenecen varios archivos
+        public virtual ICollection<Archivo> archivos { get; set; }
     }
 }

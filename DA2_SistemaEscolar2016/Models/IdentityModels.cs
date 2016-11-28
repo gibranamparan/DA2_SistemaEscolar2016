@@ -57,7 +57,7 @@ namespace DA2_SistemaEscolar2016.Models
         //Se define tabla de alumnos a partir del modelo de alumno
         public DbSet<Alumno> alumnos { get; set; }
         public DbSet<Grupo> grupos { get; set; }
-
+        public DbSet<Archivo> archivos { get; set; }
         //Constructor donde hace referencia a una conexion definida en 
         public ApplicationDbContext()
             : base("DefaultConnectionServer", throwIfV1Schema: false)

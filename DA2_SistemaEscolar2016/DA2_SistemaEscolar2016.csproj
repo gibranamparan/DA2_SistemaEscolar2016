@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -174,9 +175,22 @@
     <Compile Include="Migrations\201611231920172_test1.Designer.cs">
       <DependentUpon>201611231920172_test1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611280733509_entidad_archivo.cs" />
+    <Compile Include="Migrations\201611280733509_entidad_archivo.Designer.cs">
+      <DependentUpon>201611280733509_entidad_archivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611280824380_entidad_archivo1.cs" />
+    <Compile Include="Migrations\201611280824380_entidad_archivo1.Designer.cs">
+      <DependentUpon>201611280824380_entidad_archivo1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611280843510_entidad_archivo2.cs" />
+    <Compile Include="Migrations\201611280843510_entidad_archivo2.Designer.cs">
+      <DependentUpon>201611280843510_entidad_archivo2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Alumno.cs" />
+    <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Clase.cs" />
     <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -261,6 +275,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Archivos2\" />
+    <Folder Include="Views\Archivo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -275,6 +291,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611231920172_test1.resx">
       <DependentUpon>201611231920172_test1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611280733509_entidad_archivo.resx">
+      <DependentUpon>201611280733509_entidad_archivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611280824380_entidad_archivo1.resx">
+      <DependentUpon>201611280824380_entidad_archivo1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611280843510_entidad_archivo2.resx">
+      <DependentUpon>201611280843510_entidad_archivo2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

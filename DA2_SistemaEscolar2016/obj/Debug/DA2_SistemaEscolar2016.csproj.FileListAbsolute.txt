@@ -52,7 +52,10 @@ c:\users\rafaelgibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar20
 c:\users\rafaelgibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 c:\users\rafaelgibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.dll
 c:\users\rafaelgibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.pdb
-C:\Users\RafaelGibran\Documents\Visual Studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.csprojResolveAssemblyReference.cache
 C:\Users\RafaelGibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.Migrations.initial.resources
 C:\Users\RafaelGibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.csproj.GenerateResource.Cache
 C:\Users\RafaelGibran\documents\visual studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.Migrations.test1.resources
+C:\Users\RafaelGibran\Documents\Visual Studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.Migrations.entidad_archivo.resources
+C:\Users\RafaelGibran\Documents\Visual Studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.Migrations.entidad_archivo1.resources
+C:\Users\RafaelGibran\Documents\Visual Studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.Migrations.entidad_archivo2.resources
+C:\Users\RafaelGibran\Documents\Visual Studio 2013\Projects\DA2_SistemaEscolar2016\DA2_SistemaEscolar2016\obj\Debug\DA2_SistemaEscolar2016.csprojResolveAssemblyReference.cache

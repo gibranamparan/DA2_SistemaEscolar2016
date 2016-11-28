@@ -63,15 +63,31 @@ namespace DA2_SistemaEscolar2016.Controllers
          alumno y guardarlo*/
         [HttpPost]
         [Authorize(Roles = "Admin, Capturista")]
-        public ActionResult crear(Alumno alumnoNuevo, bool enDetallesDeGrupo = false)
+        public ActionResult crear(Alumno alumnoNuevo, HttpPostedFileBase fotoUpload, bool enDetallesDeGrupo = false)
         {
             //Validar si el nuevo alumno es valido
             if(ModelState.IsValid){
+
                 //Crear alumno
                 db.alumnos.Add(alumnoNuevo);
 
                 //Guardar cambios
                 db.SaveChanges();
+
+                //Si se guardo el alumno nuevo y se envio un archivo para su foto
+                if (alumnoNuevo.noMatricula>0 && fotoUpload != null && fotoUpload.ContentLength > 0)
+                {
+                    Archivo archivo = new Archivo();
+                    archivo.nombre = System.IO.Path.GetFileName(fotoUpload.FileName); //Toma solo el nombre del archivo
+                    archivo.formatoContenido = fotoUpload.ContentType;
+                    archivo.tipo = "Perfil";
+
+                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
+                    archivo.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+                    archivo.noMatricula = alumnoNuevo.noMatricula;
+                    db.archivos.Add(archivo);
+                    db.SaveChanges();
+                }
 
                 //Regresar una vista, todo salio bien
                 //Si estaba en pantalla de detalles de grupo
@@ -134,7 +150,9 @@ namespace DA2_SistemaEscolar2016.Controllers
         [Authorize(Roles = "Admin, Capturista")]
         public ActionResult editar(int id=0)
         {
-            var alumno = db.alumnos.Find(id);
+            //var alumno = db.alumnos.Find(id);
+            //Se busca el alumno con sus archivos incluidos
+            var alumno = db.alumnos.Include(f => f.archivos).SingleOrDefault(al => al.noMatricula == id);
             if (alumno == null)
             {
                 return RedirectToAction("listar");
