@@ -27,4 +27,10 @@ textarea {
     color: red;
 }
 
+td>img{
+    width: 5em;
+}
 
+form img{
+    height: 12em;
+}

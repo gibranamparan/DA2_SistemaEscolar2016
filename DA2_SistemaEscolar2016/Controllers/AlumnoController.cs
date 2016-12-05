@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace DA2_SistemaEscolar2016.Controllers
 {
@@ -20,13 +21,13 @@ namespace DA2_SistemaEscolar2016.Controllers
             var resultadoDeBusqueda = new List<Alumno>();
             if (!String.IsNullOrEmpty(nombreBuscado)) { 
                 //Consultar la lista de alumnos
-                resultadoDeBusqueda = db.alumnos.Where(a => a.apellidoP.Contains(nombreBuscado) ||
+                resultadoDeBusqueda = db.alumnos.Include("archivos").Where(a => a.apellidoP.Contains(nombreBuscado) ||
                     a.apellidoM.Contains(nombreBuscado) || a.nombre.Contains(nombreBuscado)).ToList();
             }
             else
             {
                 //Arrojar todos los datos
-                resultadoDeBusqueda = db.alumnos.ToList();
+                resultadoDeBusqueda = db.alumnos.Include("archivos").ToList();
             }
             //Pedirle a la vista que muestra el resultado en pantalla
             return View(resultadoDeBusqueda);
@@ -37,7 +38,7 @@ namespace DA2_SistemaEscolar2016.Controllers
         {
 
             //Consultar la lista de alumnos
-            var todosLosAlumnos = db.alumnos.ToList();
+            var todosLosAlumnos = db.alumnos.Include("archivos").ToList();
 
             //Pedirle a la vista que muestra el resultado en pantalla
             return View(todosLosAlumnos);
@@ -67,27 +68,32 @@ namespace DA2_SistemaEscolar2016.Controllers
         {
             //Validar si el nuevo alumno es valido
             if(ModelState.IsValid){
+                //Almacenar archivo
+
+                //Si se subio una foto
+                if (fotoUpload != null && fotoUpload.ContentLength > 0)
+                {
+                    //Crearemos un nuevo registro de archivo
+                    Archivo ar = new Archivo();
+                    ar.formatoContenido = fotoUpload.ContentType;
+                    ar.nombre = fotoUpload.FileName;
+                    ar.tipo = "Perfil";
+
+                    //Se lee el archivo para descomponerlo 
+                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
+                    ar.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+
+                    //Se crea al vuelo una nueva lista de archivos que
+                    //contenga solamente el unico archivo que acabamos de crear
+                    alumnoNuevo.archivos = new List<Archivo> { ar };
+                }
+
 
                 //Crear alumno
                 db.alumnos.Add(alumnoNuevo);
 
                 //Guardar cambios
                 db.SaveChanges();
-
-                //Si se guardo el alumno nuevo y se envio un archivo para su foto
-                if (alumnoNuevo.noMatricula>0 && fotoUpload != null && fotoUpload.ContentLength > 0)
-                {
-                    Archivo archivo = new Archivo();
-                    archivo.nombre = System.IO.Path.GetFileName(fotoUpload.FileName); //Toma solo el nombre del archivo
-                    archivo.formatoContenido = fotoUpload.ContentType;
-                    archivo.tipo = "Perfil";
-
-                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
-                    archivo.contenido = reader.ReadBytes(fotoUpload.ContentLength);
-                    archivo.noMatricula = alumnoNuevo.noMatricula;
-                    db.archivos.Add(archivo);
-                    db.SaveChanges();
-                }
 
                 //Regresar una vista, todo salio bien
                 //Si estaba en pantalla de detalles de grupo
@@ -150,9 +156,9 @@ namespace DA2_SistemaEscolar2016.Controllers
         [Authorize(Roles = "Admin, Capturista")]
         public ActionResult editar(int id=0)
         {
-            //var alumno = db.alumnos.Find(id);
+            var alumno = db.alumnos.Find(id);
             //Se busca el alumno con sus archivos incluidos
-            var alumno = db.alumnos.Include(f => f.archivos).SingleOrDefault(al => al.noMatricula == id);
+            //var alumno = db.alumnos.Include(f => f.archivos).SingleOrDefault(al => al.noMatricula == id);
             if (alumno == null)
             {
                 return RedirectToAction("listar");
@@ -170,9 +176,21 @@ namespace DA2_SistemaEscolar2016.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin, Capturista")]
-        public ActionResult editar(Alumno alumnoEditado)
+        public ActionResult editar(Alumno alumnoEditado, HttpPostedFileBase fotoUpload)
         {
             if (ModelState.IsValid) { 
+                
+                //Si hay una foto
+                if(fotoUpload!=null && fotoUpload.ContentLength>0){
+                    //int archivoID = alumnoEditado.archivos.Single()
+                    Archivo fotoPerfil = db.archivos.Single(ar => ar.noMatricula == alumnoEditado.noMatricula);
+                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
+                    fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+
+                    //Se modifica el registro de la foto
+                    db.Entry(fotoPerfil).State = EntityState.Modified;
+                }
+
                 //Modificar el registro actual
                 db.Entry(alumnoEditado).State = EntityState.Modified;
                 db.SaveChanges();

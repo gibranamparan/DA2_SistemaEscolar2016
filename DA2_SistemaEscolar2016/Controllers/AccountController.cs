@@ -164,7 +164,7 @@ namespace DA2_SistemaEscolar2016.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase fotoUpload)
         {
             if (ModelState.IsValid)
             {

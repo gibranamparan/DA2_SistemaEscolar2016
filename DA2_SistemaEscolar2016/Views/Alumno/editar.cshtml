@@ -3,47 +3,87 @@
 @{
     ViewBag.Title = "editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    //Determinar el id de la foto del usuario q editaremos
+    int archivoID=0;
+    if (Model.archivos.Count >0)
+    {
+         archivoID = Model.archivos.Single(foto => foto.tipo == "Perfil").archivoID;
+    }
 }
 
 <h2>editar</h2>
-<form action="editar" method="post">
+@using (Html.BeginForm("Editar", "alumno", FormMethod.Post, new { enctype="multipart/form-data"}))
+{ 
     @Html.HiddenFor(a => a.noMatricula)
     <div class="row">
-        <div class="form-group col-sm-6">
-            @Html.LabelFor(a => a.nombre)
-            @Html.EditorFor(a => a.nombre,
+        <div class="col-sm-6">
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(a => a.nombre)
+                @Html.EditorFor(a => a.nombre,
         new { htmlAttributes = new { required = "", @class = "form-control", placeholder = "Nombre" } })
-            @Html.ValidationMessageFor(a => a.nombre, "", new { @class = "error" })
-        </div>
-        <div class="form-group col-sm-6">
-            @Html.LabelFor(a => a.apellidoP)
-            @Html.EditorFor(a => a.apellidoP,
+                @Html.ValidationMessageFor(a => a.nombre, "", new { @class = "error" })
+            </div>
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(a => a.apellidoP)
+                @Html.EditorFor(a => a.apellidoP,
         new { htmlAttributes = new { required = "", @class = "form-control", placeholder = "Apellido Paterno" } })
-            @Html.ValidationMessageFor(a => a.apellidoP, "", new { @class = "error" })
-        </div>
-    </div>
+                @Html.ValidationMessageFor(a => a.apellidoP, "", new { @class = "error" })
+            </div>
 
-    <div class="row">
-        <div class="form-group col-sm-6">
-            @Html.LabelFor(a => a.apellidoM)
-            @Html.EditorFor(a => a.apellidoM,
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(a => a.apellidoM)
+                @Html.EditorFor(a => a.apellidoM,
         new { htmlAttributes = new { required = "", @class = "form-control" } })
-            @Html.ValidationMessageFor(a => a.apellidoM, "", new { @class = "error" })
-        </div>
-        <div class="form-group col-sm-6">
-            @Html.LabelFor(a => a.fechaNac)
-            @Html.EditorFor(a => a.fechaNac,
+                @Html.ValidationMessageFor(a => a.apellidoM, "", new { @class = "error" })
+            </div>
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(a => a.fechaNac)
+                @Html.EditorFor(a => a.fechaNac,
         new { htmlAttributes = new { required = "", @class = "form-control" } })
-            @Html.ValidationMessageFor(a => a.fechaNac, "", new { @class = "error" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm-12">
-            @Html.LabelFor(a => a.grupo.nombreGrupo)
-            @Html.DropDownList("grupoID", null, new { @class = "form-control" })
-        </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Enviar</button>
-    @*<div class="error">@Html.ValidationSummary()</div>*@
-</form>
+                @Html.ValidationMessageFor(a => a.fechaNac, "", new { @class = "error" })
+            </div>
 
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(a => a.grupo.nombreGrupo)
+                @Html.DropDownList("grupoID", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <!--INPUT FILE-->
+        <div class="form-group col-sm-6">
+            <label for="fotoUpload">Fotografia</label>
+            <input id="fotoUpload" name="fotoUpload"
+                   onchange="readURL(this)" type="file" class="form-control" accept="image/*">
+        </div>
+
+        <!--LA FOTO DEL USUARIO-->
+        <div>
+            @if (archivoID > 0)
+            {
+                <img id="imgAlumno" src="@Url.Action("download","Archivo", new { id = archivoID } )" />
+            }
+            else
+            {
+                <img id="imgAlumno" src="/Content/img/sinfoto.gif" />
+            }
+        </div>
+
+        <button class="btn btn-primary" type="submit">Enviar</button>
+    </div>
+}
+@section scripts{
+<script>
+   function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgAlumno')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+}

@@ -21,19 +21,29 @@
         <th>Nombre Completo</th>
         <th>Fecha Nacimiento</th>
         <th>Grupo</th>
+        <th>Foto</th>
     </tr>
-    @foreach (var alumno in Model.OrderBy(al=>al.fechaNac)) { 
+    @foreach (var alumno in Model.OrderBy(al=>al.fechaNac)) {
+        int fotoPerfilID = 0;
+        if (alumno.archivos.Count > 0) {
+            fotoPerfilID = alumno.archivos.SingleOrDefault(foto => foto.tipo == "Perfil").archivoID;
+        }
         <tr>
             <td>@alumno.noMatricula</td>
             <td>@(alumno.nombre + " " + alumno.apellidoP + " " + alumno.apellidoM)</td>
             <td>@alumno.fechaNac.ToLongDateString()</td>
             <td>@alumno.grupo.nombreGrupo</td>
             <td>
-                @*<a href="/alumno/eliminar">
-                    <i class="glyphicon glyphicon-trash">
-                    </i>
-                </a>*@
-
+                @if (fotoPerfilID == 0)
+                {
+                    <img src="/Content/img/sinfoto.gif" />
+                }
+                else
+                {
+                    <img src="@Url.Action("download", "Archivo", new { id = fotoPerfilID })" />
+                }
+            </td>
+            <td>
                 @if (User.IsInRole("Admin"))
                 {
                     @Html.ActionLink("Eliminar", "eliminar", new { id = alumno.noMatricula })
