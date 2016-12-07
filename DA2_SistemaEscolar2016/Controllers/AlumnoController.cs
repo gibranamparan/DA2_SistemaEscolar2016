@@ -27,6 +27,7 @@ namespace DA2_SistemaEscolar2016.Controllers
             else
             {
                 //Arrojar todos los datos
+                //resultadoDeBusqueda = db.alumnos.Include("archivos").ToList();
                 resultadoDeBusqueda = db.alumnos.Include("archivos").ToList();
             }
             //Pedirle a la vista que muestra el resultado en pantalla
@@ -64,30 +65,22 @@ namespace DA2_SistemaEscolar2016.Controllers
          alumno y guardarlo*/
         [HttpPost]
         [Authorize(Roles = "Admin, Capturista")]
-        public ActionResult crear(Alumno alumnoNuevo, HttpPostedFileBase fotoUpload, bool enDetallesDeGrupo = false)
+        public ActionResult crear(Alumno alumnoNuevo, 
+            HttpPostedFileBase fotoUpload, bool enDetallesDeGrupo = false)
         {
             //Validar si el nuevo alumno es valido
             if(ModelState.IsValid){
-                //Almacenar archivo
-
                 //Si se subio una foto
                 if (fotoUpload != null && fotoUpload.ContentLength > 0)
                 {
-                    //Crearemos un nuevo registro de archivo
-                    Archivo ar = new Archivo();
-                    ar.formatoContenido = fotoUpload.ContentType;
-                    ar.nombre = fotoUpload.FileName;
-                    ar.tipo = "Perfil";
-
+                    Archivo fotoPerfil = new Archivo(fotoUpload, "Perfil");
                     //Se lee el archivo para descomponerlo 
-                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
-                    ar.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+                    fotoPerfil.contenido = Archivo.httpPostedFileBaseToByteArray(fotoUpload);
 
                     //Se crea al vuelo una nueva lista de archivos que
                     //contenga solamente el unico archivo que acabamos de crear
-                    alumnoNuevo.archivos = new List<Archivo> { ar };
+                    alumnoNuevo.archivos = new List<Archivo> { fotoPerfil };
                 }
-
 
                 //Crear alumno
                 db.alumnos.Add(alumnoNuevo);
@@ -98,13 +91,9 @@ namespace DA2_SistemaEscolar2016.Controllers
                 //Regresar una vista, todo salio bien
                 //Si estaba en pantalla de detalles de grupo
                 if (enDetallesDeGrupo)
-                {
                     return RedirectToAction("detalles", "grupos", new { id = alumnoNuevo.grupoID });
-                }
                 else
-                {
                     return RedirectToAction("listar");
-                }
             }
             //Si llegaste tan lejos, porque hay una bronca
             ViewBag.MensajeError = "Hubo un error, favor de verificar la informacion introducida";
@@ -138,9 +127,7 @@ namespace DA2_SistemaEscolar2016.Controllers
             Alumno alumno = db.alumnos.Find(noMatricula);
 
             if (alumno == null)
-            {
                 return RedirectToAction("listar");
-            }
 
             //Elimina alumnos
             db.alumnos.Remove(alumno);
@@ -179,30 +166,25 @@ namespace DA2_SistemaEscolar2016.Controllers
         public ActionResult editar(Alumno alumnoEditado, HttpPostedFileBase fotoUpload)
         {
             if (ModelState.IsValid) { 
-                
                 //Si se recibio una foto
                 if(fotoUpload!=null && fotoUpload.ContentLength>0){
-                    Archivo fotoPerfil = new Archivo();
-                    if (alumnoEditado.archivos!=null && alumnoEditado.archivos.Count > 0) { 
-                        fotoPerfil = db.archivos.Single(ar => ar.noMatricula ==
-                        alumnoEditado.noMatricula);
-
-                        var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
-                        fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+                    String tipoArchivo = "Perfil";
+                    //Se busca la foto del alumno editado
+                    Archivo fotoPerfil = db.archivos.SingleOrDefault(ar => 
+                        ar.noMatricula == alumnoEditado.noMatricula && ar.tipo == tipoArchivo);
+                    //Si existe la foto
+                    if (fotoPerfil.archivoID>0) {
+                        fotoPerfil.contenido = Archivo.httpPostedFileBaseToByteArray(fotoUpload);
 
                         //Se modifica el registro de la foto
                         db.Entry(fotoPerfil).State = EntityState.Modified;
                     }
-                    else
+                    else //Si no existe la foto
                     {
-                        fotoPerfil.formatoContenido = fotoUpload.ContentType;
-                        fotoPerfil.nombre = fotoUpload.FileName;
-                        fotoPerfil.tipo = "Perfil";
-
-                        //Se lee el archivo para descomponerlo 
-                        var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
-                        fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
-                        //Se relaciona la nueva foto
+                        //Se crea una nueva
+                        fotoPerfil = new Archivo(fotoUpload, tipoArchivo);
+                        fotoPerfil.contenido = Archivo.httpPostedFileBaseToByteArray(fotoUpload);
+                        //Y se relaciona con el alumno editado
                         fotoPerfil.noMatricula = alumnoEditado.noMatricula;
                         db.archivos.Add(fotoPerfil);
                     }

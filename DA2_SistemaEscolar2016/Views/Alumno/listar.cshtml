@@ -26,7 +26,7 @@
     @foreach (var alumno in Model.OrderBy(al=>al.fechaNac)) {
         int fotoPerfilID = 0;
         if (alumno.archivos.Count > 0) {
-            fotoPerfilID = alumno.archivos.SingleOrDefault(foto => foto.tipo == "Perfil").archivoID;
+            fotoPerfilID = alumno.archivos.FirstOrDefault(foto => foto.tipo == "Perfil").archivoID;
         }
         <tr>
             <td>@alumno.noMatricula</td>

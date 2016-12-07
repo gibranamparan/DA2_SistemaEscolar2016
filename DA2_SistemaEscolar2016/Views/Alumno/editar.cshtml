@@ -8,7 +8,7 @@
     int archivoID=0;
     if (Model.archivos.Count >0)
     {
-         archivoID = Model.archivos.Single(foto => foto.tipo == "Perfil").archivoID;
+         archivoID = Model.archivos.FirstOrDefault(foto => foto.tipo == "Perfil").archivoID;
     }
 }
 
