@@ -180,15 +180,32 @@ namespace DA2_SistemaEscolar2016.Controllers
         {
             if (ModelState.IsValid) { 
                 
-                //Si hay una foto
+                //Si se recibio una foto
                 if(fotoUpload!=null && fotoUpload.ContentLength>0){
-                    //int archivoID = alumnoEditado.archivos.Single()
-                    Archivo fotoPerfil = db.archivos.Single(ar => ar.noMatricula == alumnoEditado.noMatricula);
-                    var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
-                    fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+                    Archivo fotoPerfil = new Archivo();
+                    if (alumnoEditado.archivos!=null && alumnoEditado.archivos.Count > 0) { 
+                        fotoPerfil = db.archivos.Single(ar => ar.noMatricula ==
+                        alumnoEditado.noMatricula);
 
-                    //Se modifica el registro de la foto
-                    db.Entry(fotoPerfil).State = EntityState.Modified;
+                        var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
+                        fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+
+                        //Se modifica el registro de la foto
+                        db.Entry(fotoPerfil).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        fotoPerfil.formatoContenido = fotoUpload.ContentType;
+                        fotoPerfil.nombre = fotoUpload.FileName;
+                        fotoPerfil.tipo = "Perfil";
+
+                        //Se lee el archivo para descomponerlo 
+                        var reader = new System.IO.BinaryReader(fotoUpload.InputStream);
+                        fotoPerfil.contenido = reader.ReadBytes(fotoUpload.ContentLength);
+                        //Se relaciona la nueva foto
+                        fotoPerfil.noMatricula = alumnoEditado.noMatricula;
+                        db.archivos.Add(fotoPerfil);
+                    }
                 }
 
                 //Modificar el registro actual
